@@ -94,11 +94,24 @@ function AboutPage() {
       <Different />
       <ServiceArea />
 
-      <section className="bg-sr-yellow py-14 text-center">
-        <h2 className="text-3xl text-sr-black sm:text-4xl">Ready to talk?</h2>
-        <p className="mt-2 text-base text-sr-black/85">One business day. Real answers.</p>
-        <div className="mt-6">
-          <ComicLink to="/contact" variant="secondary" size="lg">Contact Shelley →</ComicLink>
+      <section className="border-b-[3px] border-sr-black bg-sr-yellow py-14">
+        <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 sm:px-6 md:grid-cols-2">
+          <ComicPanel className="overflow-hidden p-0" background="white">
+            <img
+              src={shelleyPhoto}
+              alt="Shelley Jackson, Las Vegas REALTOR®"
+              width={600}
+              height={800}
+              className="block h-full w-full object-cover"
+            />
+          </ComicPanel>
+          <div className="text-center md:text-left">
+            <h2 className="text-3xl text-sr-black sm:text-4xl">Ready to talk?</h2>
+            <p className="mt-2 text-base text-sr-black/85">One business day. Real answers.</p>
+            <div className="mt-6">
+              <ComicLink to="/contact" variant="secondary" size="lg">Contact Shelley →</ComicLink>
+            </div>
+          </div>
         </div>
       </section>
     </>
