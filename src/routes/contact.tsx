@@ -1,6 +1,4 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
-import { z } from "zod";
-import { fallback } from "@tanstack/zod-adapter";
 import { SectionHeading } from "@/components/comic/SectionHeading";
 import { ComicPanel } from "@/components/comic/ComicPanel";
 import { Halftone } from "@/components/comic/Halftone";
@@ -8,10 +6,12 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 
-const interestSchema = z.enum(["buying", "selling", "leasing", "property_management", "exploring"]);
-const searchSchema = z.object({
-  interest: fallback(interestSchema, "exploring").default("exploring"),
-});
+type Interest = "buying" | "selling" | "leasing" | "property_management" | "exploring";
+const VALID_INTERESTS: Interest[] = ["buying", "selling", "leasing", "property_management", "exploring"];
+function searchSchema(input: Record<string, unknown>): { interest: Interest } {
+  const i = input.interest;
+  return { interest: (typeof i === "string" && (VALID_INTERESTS as string[]).includes(i)) ? (i as Interest) : "exploring" };
+}
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
