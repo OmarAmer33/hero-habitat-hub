@@ -49,11 +49,17 @@ function FAQPage() {
     <>
       <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-yellow py-12 sm:py-16">
         <Halftone variant="blue" density="normal" opacity={0.15} />
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <h1 className="text-5xl text-sr-black sm:text-6xl">FAQ</h1>
-          <p className="mt-3 text-lg text-sr-black/85">The questions Shelley gets asked most.</p>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-5">
+          <div className="md:col-span-3 text-center md:text-left">
+            <h1 className="text-5xl text-sr-black sm:text-6xl">FAQ</h1>
+            <p className="mt-3 text-lg text-sr-black/85">The questions Shelley gets asked most.</p>
+          </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-2" background="cream">
+            <img src={illoFaq} alt="Shelley with floating question-mark thought bubbles, ready with answers." width={1248} height={832} loading="lazy" className="block h-full w-full object-cover" />
+          </ComicPanel>
         </div>
       </section>
+
 
       <section className="bg-sr-cream py-12 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">

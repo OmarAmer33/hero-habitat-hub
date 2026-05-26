@@ -30,14 +30,20 @@ function PMPage() {
     <>
       <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-black py-14 text-white sm:py-20">
         <Halftone variant="yellow" density="normal" opacity={0.18} />
-        <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
-          <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>Mission: Protect the investment</p>
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Property Management</h1>
-          <p className="mt-6 text-xl text-white/95">
-            You bought it to make money, not to chase tenants and fix water heaters at 11 p.m. That's where 20 years of property management experience comes in.
-          </p>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-5">
+          <div className="md:col-span-3">
+            <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>Mission: Protect the investment</p>
+            <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Property Management</h1>
+            <p className="mt-6 text-xl text-white/95">
+              You bought it to make money, not to chase tenants and fix water heaters at 11 p.m. That's where 20 years of property management experience comes in.
+            </p>
+          </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-2" background="cream">
+            <img src={illoPM} alt="Shelley shielding a row of rental properties with a yellow SR shield." width={1248} height={832} className="block h-full w-full object-cover" />
+          </ComicPanel>
         </div>
       </section>
+
 
       <section className="border-b-[3px] border-sr-black bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
