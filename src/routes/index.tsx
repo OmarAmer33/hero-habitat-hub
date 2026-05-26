@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: `${SITE.name} — You're a Real Estate Hero | Las Vegas` },
+      { title: `${SITE.name} — Your Real Estate Hero | Las Vegas` },
       {
         name: "description",
         content:
@@ -86,7 +86,7 @@ function HeroSection() {
             Las Vegas · Henderson · Summerlin
           </p>
           <h1 className="mt-3 text-5xl text-sr-black sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-            <span className="block">You're a</span>
+            <span className="block">Your</span>
             <span className="block text-sr-red" style={{ WebkitTextStroke: "2px var(--color-sr-black)", paintOrder: "stroke fill" }}>
               Real Estate
             </span>
