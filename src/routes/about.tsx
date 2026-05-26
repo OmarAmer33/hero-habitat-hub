@@ -7,6 +7,7 @@ import { Burst } from "@/components/comic/Burst";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Home, Building2, MapPin, Zap, Shield } from "lucide-react";
 import illoAbout from "@/assets/illo-about.jpg";
+import shelleyPhoto from "@/assets/shelley-photo.png";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
