@@ -5,6 +5,7 @@ import { ComicPanel } from "@/components/comic/ComicPanel";
 import { Halftone } from "@/components/comic/Halftone";
 import { SITE } from "@/content/shelley";
 import { ArrowRight, Home, Zap, Building2, KeyRound } from "lucide-react";
+import illoLeasing from "@/assets/illo-leasing.jpg";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
@@ -128,6 +129,8 @@ function ServicesPage() {
         whoFor="Renters relocating to Vegas, owners filling vacancies."
         ctaHref="/contact?interest=leasing"
         ctaLabel="Tell Shelley you're leasing"
+        image={illoLeasing}
+        imageAlt="Shelley handing apartment keys to a smiling new renter."
       />
       <ServiceSection
         id="property-management"
@@ -161,10 +164,12 @@ interface ServiceSectionProps {
   ctaHref: string;
   ctaLabel: string;
   learnHref?: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 function ServiceSection({
-  id, kicker, title, icon: Icon, accent, whatsIncluded, whoFor, ctaHref, ctaLabel, learnHref,
+  id, kicker, title, icon: Icon, accent, whatsIncluded, whoFor, ctaHref, ctaLabel, learnHref, image, imageAlt,
 }: ServiceSectionProps) {
   return (
     <section
@@ -182,6 +187,11 @@ function ServiceSection({
             </p>
             <h2 className="mt-2 text-4xl text-sr-black sm:text-5xl">{title}</h2>
             <p className="mt-4 text-base text-sr-black/85"><strong>Who it's for:</strong> {whoFor}</p>
+            {image && (
+              <ComicPanel className="mt-6 overflow-hidden p-0" background="white">
+                <img src={image} alt={imageAlt ?? ""} width={1248} height={832} loading="lazy" className="block h-full w-full object-cover" />
+              </ComicPanel>
+            )}
           </div>
           <ComicPanel background={accent === "cream" ? "white" : "cream"} className="p-6 lg:col-span-3">
             <h3 className="text-2xl text-sr-black">What's included</h3>
