@@ -84,8 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "SuperRealtor.com is a lead-generation website for a Las Vegas REALTOR®, offering a bold, comic-book-inspired design." },
       { property: "og:description", content: "SuperRealtor.com is a lead-generation website for a Las Vegas REALTOR®, offering a bold, comic-book-inspired design." },
       { name: "twitter:description", content: "SuperRealtor.com is a lead-generation website for a Las Vegas REALTOR®, offering a bold, comic-book-inspired design." },
-      { property: "og:image", content: `https://hero-habitat-hub.lovable.app/og-image.jpg?v=${Date.now()}` },
-      { name: "twitter:image", content: `https://hero-habitat-hub.lovable.app/og-image.jpg?v=${Date.now()}` },
+      { property: "og:image", content: "https://hero-habitat-hub.lovable.app/og-image.jpg?v=2" },
+      { name: "twitter:image", content: "https://hero-habitat-hub.lovable.app/og-image.jpg?v=2" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
