@@ -109,7 +109,7 @@ function AboutPage() {
               alt="Shelley Jackson, Las Vegas REALTOR®"
               width={300}
               height={400}
-              className="block h-auto max-h-[200px] w-auto object-contain"
+              className="block h-auto max-h-[400px] w-auto object-contain"
             />
           </ComicPanel>
         </div>
