@@ -5,6 +5,7 @@ import { ComicLink } from "@/components/comic/ComicButton";
 import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SITE } from "@/content/shelley";
+import illoBuyers from "@/assets/illo-buyers.jpg";
 
 export const Route = createFileRoute("/buyers")({
   component: BuyersPage,
