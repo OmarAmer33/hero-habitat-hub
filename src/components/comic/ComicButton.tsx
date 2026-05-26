@@ -41,12 +41,13 @@ export const ComicButton = forwardRef<HTMLButtonElement, ComicButtonProps>(
 );
 ComicButton.displayName = "ComicButton";
 
-interface ComicLinkProps extends Omit<LinkProps, "className" | "children"> {
+type ComicLinkProps = LinkProps & {
   variant?: Variant;
   size?: Size;
   className?: string;
   children: ReactNode;
-}
+  onClick?: () => void;
+};
 
 export function ComicLink({
   variant = "primary",
