@@ -21,7 +21,7 @@ export const SHELLEY = {
   cities: ["Las Vegas", "Henderson", "Summerlin", "North Las Vegas"],
   // CONFIRM WITH SHELLEY
   googleBusinessUrl: "https://www.google.com/search?q=Shelley+Jackson+Realtor+Las+Vegas",
-  tagline: "You're a real estate hero.",
+  tagline: "Your real estate hero.",
   // CONFIRM WITH SHELLEY / Castle Rock Realty — exact required wording for Nevada
   brokerageDisclosure:
     "Each office is independently owned and operated. Equal Housing Opportunity. Information deemed reliable but not guaranteed.",
