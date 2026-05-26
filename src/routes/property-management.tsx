@@ -4,6 +4,7 @@ import { ComicPanel } from "@/components/comic/ComicPanel";
 import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SITE } from "@/content/shelley";
+import illoPM from "@/assets/illo-property-management.jpg";
 
 export const Route = createFileRoute("/property-management")({
   component: PMPage,

@@ -5,6 +5,7 @@ import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
+import illoContact from "@/assets/illo-contact.jpg";
 
 type Interest = "buying" | "selling" | "leasing" | "property_management" | "exploring";
 const VALID_INTERESTS: Interest[] = ["buying", "selling", "leasing", "property_management", "exploring"];

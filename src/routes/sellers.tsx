@@ -4,6 +4,7 @@ import { ComicPanel } from "@/components/comic/ComicPanel";
 import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SITE } from "@/content/shelley";
+import illoSellers from "@/assets/illo-sellers.jpg";
 
 export const Route = createFileRoute("/sellers")({
   component: SellersPage,

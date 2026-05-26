@@ -38,14 +38,20 @@ function BuyersPage() {
     <>
       <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-blue py-14 text-white sm:py-20">
         <Halftone variant="yellow" density="normal" opacity={0.2} />
-        <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
-          <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>The Super Buyer Blueprint</p>
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Mission: Buy Your Las Vegas Home</h1>
-          <p className="mt-6 text-xl text-white/95">
-            Las Vegas moves fast, but a good home purchase doesn't. Here's the process that keeps you confident from "I want to buy" to "give me the keys."
-          </p>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-5">
+          <div className="md:col-span-3">
+            <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>The Super Buyer Blueprint</p>
+            <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Mission: Buy Your Las Vegas Home</h1>
+            <p className="mt-6 text-xl text-white/95">
+              Las Vegas moves fast, but a good home purchase doesn't. Here's the process that keeps you confident from "I want to buy" to "give me the keys."
+            </p>
+          </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-2" background="cream">
+            <img src={illoBuyers} alt="Shelley handing the keys to a happy young couple in front of their new Las Vegas home." width={1248} height={832} className="block h-full w-full object-cover" />
+          </ComicPanel>
         </div>
       </section>
+
 
       <section className="border-b-[3px] border-sr-black bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">

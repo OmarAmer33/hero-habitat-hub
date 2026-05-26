@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SectionHeading } from "@/components/comic/SectionHeading";
 import { Halftone } from "@/components/comic/Halftone";
 import { ComicLink } from "@/components/comic/ComicButton";
+import { ComicPanel } from "@/components/comic/ComicPanel";
 import { SITE } from "@/content/shelley";
+import illoFaq from "@/assets/illo-faq.jpg";
 
 const FAQS = [
   ["How do I know if I'm ready to buy a home in Las Vegas?", "Three signs: stable income, decent credit (620+ for most loans), and money saved for a down payment plus closing. We can walk through your specifics in a 15-minute call."],
