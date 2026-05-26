@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/comic/Logo";
@@ -55,12 +56,12 @@ export function Header() {
         </button>
       </div>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="fixed inset-0 z-50 flex flex-col bg-sr-cream"
+          className="fixed inset-0 z-[100] flex flex-col bg-sr-cream"
         >
           <div className="flex items-center justify-between border-b-[3px] border-sr-black px-4 py-3">
             <Logo variant="horizontal" height={36} />
@@ -92,7 +93,8 @@ export function Header() {
               </ComicLink>
             </div>
           </nav>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
