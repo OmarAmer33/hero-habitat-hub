@@ -6,6 +6,7 @@ import { LeadForm } from "@/components/forms/LeadForm";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import illoContact from "@/assets/illo-contact.jpg";
+import shelleyPhoto from "@/assets/shelley-photo.png";
 
 type Interest = "buying" | "selling" | "leasing" | "property_management" | "exploring";
 const VALID_INTERESTS: Interest[] = ["buying", "selling", "leasing", "property_management", "exploring"];
@@ -56,7 +57,21 @@ function ContactPage() {
             <SectionHeading as="h2" align="left">Send a signal</SectionHeading>
             <div className="mt-6"><LeadForm defaultInterest={interest} /></div>
           </div>
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
+            <ComicPanel background="cream" className="overflow-hidden p-0">
+              <div className="relative bg-sr-blue">
+                <Halftone variant="yellow" density="normal" opacity={0.2} />
+                <img
+                  src={shelleyPhoto}
+                  alt="Shelley Jackson, Las Vegas REALTOR®"
+                  className="relative block h-auto w-full object-contain"
+                />
+              </div>
+              <div className="border-t-[3px] border-sr-black bg-sr-cream px-4 py-3 text-center">
+                <p className="font-display text-xl uppercase text-sr-black">{SHELLEY.name}</p>
+                <p className="font-marker text-sm text-sr-red">REALTOR® · Las Vegas</p>
+              </div>
+            </ComicPanel>
             <ComicPanel background="yellow" className="p-6">
               <h2 className="text-2xl text-sr-black">Direct line</h2>
               <ul className="mt-4 space-y-4 text-base text-sr-black">
