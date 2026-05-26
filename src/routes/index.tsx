@@ -120,18 +120,14 @@ function HeroSection() {
         </div>
 
         <div className="md:col-span-2">
-          <ComicPanel className="aspect-square overflow-hidden p-0" background="cream">
-            <div className="relative flex h-full items-center justify-center bg-sr-blue text-center">
-              <Halftone variant="yellow" density="dense" opacity={0.3} />
-              <Burst size={320} color="yellow" className="absolute" />
-              <div className="relative z-10 px-4">
-                <SoundFx text="BAM!" rotation={-10} color="red" size="xl" />
-                <p className="mt-4 font-display text-xl uppercase text-white">
-                  Hero illustration<br />in progress
-                </p>
-                <p className="mt-1 text-xs text-white/80">CONFIRM WITH SHELLEY</p>
-              </div>
-            </div>
+          <ComicPanel className="overflow-hidden p-0" background="cream">
+            <img
+              src={heroShelley}
+              alt="Shelley Jackson, Las Vegas Super Realtor, in royal-blue blazer and red cape with a giant golden house key, Las Vegas skyline behind her."
+              width={1408}
+              height={800}
+              className="block h-full w-full object-cover"
+            />
           </ComicPanel>
         </div>
       </div>
