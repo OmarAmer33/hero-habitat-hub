@@ -95,16 +95,7 @@ function AboutPage() {
       <ServiceArea />
 
       <section className="border-b-[3px] border-sr-black bg-sr-yellow py-14">
-        <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 sm:px-6 md:grid-cols-2">
-          <ComicPanel className="overflow-hidden p-0" background="white">
-            <img
-              src={shelleyPhoto}
-              alt="Shelley Jackson, Las Vegas REALTOR®"
-              width={600}
-              height={800}
-              className="block h-full w-full object-cover"
-            />
-          </ComicPanel>
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-center gap-8 px-4 sm:px-6 md:flex-row md:gap-10">
           <div className="text-center md:text-left">
             <h2 className="text-3xl text-sr-black sm:text-4xl">Ready to talk?</h2>
             <p className="mt-2 text-base text-sr-black/85">One business day. Real answers.</p>
@@ -112,6 +103,15 @@ function AboutPage() {
               <ComicLink to="/contact" variant="secondary" size="lg">Contact Shelley →</ComicLink>
             </div>
           </div>
+          <ComicPanel className="shrink-0 overflow-hidden p-0" background="white">
+            <img
+              src={shelleyPhoto}
+              alt="Shelley Jackson, Las Vegas REALTOR®"
+              width={300}
+              height={400}
+              className="block h-auto max-h-[200px] w-auto object-contain"
+            />
+          </ComicPanel>
         </div>
       </section>
     </>
