@@ -58,14 +58,14 @@ function AboutPage() {
 
       <section className="border-b-[3px] border-sr-black bg-sr-cream py-16 sm:py-20">
         <div className="mx-auto grid max-w-5xl gap-10 px-4 sm:px-6 md:grid-cols-3">
-          <ComicPanel className="aspect-[4/5] p-0 md:col-span-1" background="white">
-            <div className="flex h-full items-center justify-center bg-sr-paper p-6 text-center">
-              <div>
-                <div className="mx-auto mb-4 h-32 w-32 rounded-full border-comic bg-sr-yellow" aria-hidden />
-                <p className="font-display text-base uppercase text-sr-black">Headshot</p>
-                <p className="mt-1 text-xs text-sr-black/70">CONFIRM WITH SHELLEY</p>
-              </div>
-            </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-1" background="white">
+            <img
+              src={illoAbout}
+              alt="Shelley Jackson in royal-blue blazer and red cape standing on a Las Vegas residential street."
+              width={894}
+              height={1192}
+              className="block h-full w-full object-cover"
+            />
           </ComicPanel>
           <div className="md:col-span-2">
             <SectionHeading as="h2" align="left">Twenty years on the ground.</SectionHeading>
