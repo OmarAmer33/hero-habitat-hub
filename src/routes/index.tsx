@@ -185,14 +185,15 @@ function MeetShelleyPreview() {
       <Halftone variant="red" density="sparse" opacity={0.1} />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 md:grid-cols-5">
         <div className="md:col-span-2">
-          <ComicPanel className="aspect-[4/5] p-0" background="white">
-            <div className="flex h-full items-center justify-center bg-sr-paper p-6 text-center">
-              <div>
-                <div className="mx-auto mb-4 h-28 w-28 rounded-full border-comic bg-sr-yellow" aria-hidden />
-                <p className="font-display text-lg uppercase text-sr-black">Headshot</p>
-                <p className="mt-1 text-xs text-sr-black/70">CONFIRM WITH SHELLEY</p>
-              </div>
-            </div>
+          <ComicPanel className="overflow-hidden p-0" background="white">
+            <img
+              src={illoAbout}
+              alt="Portrait of Shelley Jackson in her royal-blue blazer and red cape, standing on a Las Vegas residential street."
+              width={894}
+              height={1192}
+              loading="lazy"
+              className="block h-full w-full object-cover"
+            />
           </ComicPanel>
         </div>
         <div className="md:col-span-3">
