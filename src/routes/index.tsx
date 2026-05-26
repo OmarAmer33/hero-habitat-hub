@@ -10,6 +10,8 @@ import { SoundFx } from "@/components/comic/SoundFx";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Phone, Mail, Zap, Home, KeyRound, Building2, ArrowRight } from "lucide-react";
+import heroShelley from "@/assets/hero-shelley.jpg";
+import illoAbout from "@/assets/illo-about.jpg";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
