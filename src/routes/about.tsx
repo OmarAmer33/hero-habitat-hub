@@ -6,6 +6,7 @@ import { Halftone } from "@/components/comic/Halftone";
 import { Burst } from "@/components/comic/Burst";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Home, Building2, MapPin, Zap, Shield } from "lucide-react";
+import illoAbout from "@/assets/illo-about.jpg";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
