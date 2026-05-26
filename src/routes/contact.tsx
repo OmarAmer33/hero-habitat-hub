@@ -5,6 +5,7 @@ import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SHELLEY, SITE } from "@/content/shelley";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
+import illoContact from "@/assets/illo-contact.jpg";
 
 type Interest = "buying" | "selling" | "leasing" | "property_management" | "exploring";
 const VALID_INTERESTS: Interest[] = ["buying", "selling", "leasing", "property_management", "exploring"];
@@ -35,13 +36,19 @@ function ContactPage() {
     <>
       <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-blue py-14 text-white sm:py-20">
         <Halftone variant="yellow" density="normal" opacity={0.18} />
-        <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl">Let's make your next move legendary</h1>
-          <p className="mt-4 text-lg text-white/95">
-            Drop your details. Tell me what you're working on. One business-day reply — just me, no auto-responders.
-          </p>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-5">
+          <div className="md:col-span-3 text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl">Let's make your next move legendary</h1>
+            <p className="mt-4 text-lg text-white/95">
+              Drop your details. Tell me what you're working on. One business-day reply — just me, no auto-responders.
+            </p>
+          </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-2" background="cream">
+            <img src={illoContact} alt="Shelley on the phone giving a thumbs up — ON IT! comic burst." width={1248} height={832} className="block h-full w-full object-cover" />
+          </ComicPanel>
         </div>
       </section>
+
 
       <section className="bg-sr-cream py-12 sm:py-16">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-5">

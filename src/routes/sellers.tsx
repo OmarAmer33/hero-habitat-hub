@@ -4,6 +4,7 @@ import { ComicPanel } from "@/components/comic/ComicPanel";
 import { Halftone } from "@/components/comic/Halftone";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { SITE } from "@/content/shelley";
+import illoSellers from "@/assets/illo-sellers.jpg";
 
 export const Route = createFileRoute("/sellers")({
   component: SellersPage,
@@ -36,14 +37,20 @@ function SellersPage() {
     <>
       <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-red py-14 text-white sm:py-20">
         <Halftone variant="yellow" density="normal" opacity={0.2} />
-        <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
-          <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>The Super Seller Strategy</p>
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Mission: Sell For Top Dollar</h1>
-          <p className="mt-6 text-xl text-white/95">
-            Your home isn't just a listing — it's the story buyers fall in love with. Here's how we set the stage, draw the crowd, and close strong.
-          </p>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-5">
+          <div className="md:col-span-3">
+            <p className="font-marker text-lg text-sr-yellow" style={{ transform: "rotate(-2deg)", display: "inline-block" }}>The Super Seller Strategy</p>
+            <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl">Mission: Sell For Top Dollar</h1>
+            <p className="mt-6 text-xl text-white/95">
+              Your home isn't just a listing — it's the story buyers fall in love with. Here's how we set the stage, draw the crowd, and close strong.
+            </p>
+          </div>
+          <ComicPanel className="overflow-hidden p-0 md:col-span-2" background="cream">
+            <img src={illoSellers} alt="Shelley planting a SOLD sign in front of a stylish Las Vegas home with a KA-CHING comic burst." width={1248} height={832} className="block h-full w-full object-cover" />
+          </ComicPanel>
         </div>
       </section>
+
 
       <section className="border-b-[3px] border-sr-black bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
