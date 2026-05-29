@@ -10,8 +10,8 @@ export const SHELLEY = {
   brokerage: "Castle Rock Realty",
   yearsExperience: 20,
   // CONFIRM WITH SHELLEY
-  phone: "(702) 902-3333",
-  phoneHref: "tel:+17029023333",
+  phone: "(702) 906-3333",
+  phoneHref: "tel:+17029063333",
   // CONFIRM WITH SHELLEY — may move to a branded address
   email: "shelleyjackson@gmail.com",
   emailHref: "mailto:shelleyjackson@gmail.com",
