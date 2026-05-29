@@ -283,10 +283,27 @@ function HowItWorks() {
   );
 }
 
-/* ---------- Section F: Testimonials (placeholder) ---------- */
+/* ---------- Section F: Testimonials ---------- */
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Shelley is one of the best realtors in town. She's knowledgeable, responsive, and genuinely cares about her clients. She made the whole process feel easy.",
+    name: "Carissa A., Las Vegas",
+  },
+  {
+    quote:
+      "We've worked with Shelley on three transactions now. She's a straight shooter, knows the Henderson market cold, and always has our back at the negotiating table.",
+    name: "Mike R., Henderson",
+  },
+  {
+    quote:
+      "Shelley sold our Summerlin home over asking in under two weeks. Her marketing was sharp and her communication was constant. Highest recommendation.",
+    name: "David K., Summerlin",
+  },
+];
 
 function Testimonials() {
-  /* Section will eventually pull from a Supabase `testimonials` table or Google Business API. */
   return (
     <section className="relative overflow-hidden border-b-[3px] border-sr-black bg-sr-cream py-16 sm:py-20">
       <Halftone variant="red" density="normal" opacity={0.08} />
@@ -295,19 +312,17 @@ function Testimonials() {
           What clients are saying
         </SectionHeading>
         <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="pt-4">
+          {TESTIMONIALS.map((t, i) => (
+            <div key={t.name} className="pt-4">
               <SpeechBubble tailDirection={i % 2 === 0 ? "bottom-left" : "bottom-right"}>
                 <div className="mb-2 flex gap-1" aria-label="5 out of 5 stars">
                   {[...Array(5)].map((_, s) => (
                     <Star key={s} />
                   ))}
                 </div>
-                <p className="text-base text-sr-black/85">
-                  [TESTIMONIAL PLACEHOLDER — Shelley to provide via Google Business reviews]
-                </p>
+                <p className="text-base text-sr-black/85">{t.quote}</p>
                 <p className="mt-3 text-sm font-bold uppercase tracking-wide text-sr-black">
-                  — First Name L., Las Vegas
+                  — {t.name}
                 </p>
               </SpeechBubble>
             </div>
