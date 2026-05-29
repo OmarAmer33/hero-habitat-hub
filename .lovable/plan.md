@@ -1,45 +1,52 @@
-## Final approved plan — executing in build mode
+Resuming the previously approved plan (already documented in `.lovable/plan.md`). No scope changes — this is the execution pass.
 
-### Part 1 — Five content/code fixes
+## Part 2 — Cloud + leads schema
 
-1. **Phone** — `src/content/shelley.ts` L13–14: `902` → `906`.
-2. **Testimonials** — `src/routes/index.tsx`: replace `[0,1,2].map()` with three hardcoded entries (Carissa A./Las Vegas, Mike R./Henderson, David K./Summerlin), preserving panel styling.
-3. **Duplicate meta** — `src/routes/__root.tsx`: delete L81–86.
-4. **OG image** — `src/routes/__root.tsx` L87–88: → `"/og-image.jpg"`.
-5. **Rate limiting** — `lead_rate_limit` migration + logic in `submit-lead.ts`, 5/hour/IP, 429 + `Retry-After: 3600`.
+1. Enable Lovable Cloud (credits now topped up).
+2. Migration: `lead_status` enum (`new | contacted | qualified | closed | archived`).
+3. Migration `public.leads`:
+   - `id uuid pk default gen_random_uuid()`, `created_at timestamptz default now()`
+   - `full_name`, `email`, `phone`, `message`, `source_path`, `user_agent`
+   - `preferred_contact_method text` + CHECK in (`phone`, `text`, `email`)
+   - `interest text` + CHECK in (`buying`, `selling`, `leasing`, `property_management`, `exploring`)
+   - `best_time_to_contact text`
+   - `status lead_status not null default 'new'`
+   - RLS enabled; `GRANT ALL ON public.leads TO service_role` only (no anon/authenticated — all writes go through service-role server route)
+4. Migration `public.lead_rate_limit (ip text, window_start timestamptz, count int)` for the 5/hour limiter.
+5. Add rate-limit logic to `src/routes/api/public/submit-lead.ts`: 5 inserts/hour/IP → `429` with `Retry-After: 3600` on the 6th.
 
-### Part 2 — Cloud + leads schema
+## Part 3 — Lovable Emails on `notify.superrealtor.com`
 
-- Enable Lovable Cloud.
-- Migration: `lead_status` enum (`new | contacted | qualified | closed | archived`).
-- Migration `public.leads`: standard columns, `status lead_status not null default 'new'`, CHECK constraints on `preferred_contact_method` and `interest`, RLS on, `GRANT ALL TO service_role`.
-- Migration `public.lead_rate_limit`.
+1. Trigger sender-domain setup dialog for `notify.superrealtor.com`.
+2. Run `setup_email_infra` (pgmq queues, RPC wrappers, email tables, cron job, vault secret).
+3. Run `scaffold_transactional_email` (server routes + `registry.ts`).
+4. Create `src/lib/email-templates/new-lead-notification.tsx` — internal notification template to Shelley. Brand-consistent (Super Realtor comic-style colors), white body bg, displays full lead details. Optional `templateData` props: `fullName`, `email`, `phone`, `interest`, `preferredContactMethod`, `bestTimeToContact`, `message`, `sourcePath`.
+5. Register the template in `src/lib/email-templates/registry.ts`.
+6. Wire `submit-lead.ts`: after successful insert, fire-and-forget call to `/lovable/email/transactional/send` with:
+   - `templateName: 'new-lead-notification'`
+   - `recipientEmail: 'shelleyjackson@gmail.com'`
+   - `idempotencyKey: new-lead-${id}`
+   - `templateData: { ...lead fields }`
+   - Service-role auth (this is a public unauthenticated form, per the public-trigger pattern).
+   - Email failure must NOT fail the submission — wrap in try/catch, log only.
 
-### Part 3 — Lovable Emails on `notify.superrealtor.com`
+## Part 4 — E2E test on preview URL
 
-- Trigger sender-domain setup dialog (`notify.superrealtor.com`).
-- `setup_email_infra` → pgmq queues, RPC wrappers, email tables, cron.
-- `scaffold_transactional_email` → server routes + registry.
-- New template `src/lib/email-templates/new-lead-notification.tsx` — internal notification to Shelley, brand-consistent, white body bg.
-- Wire `submit-lead.ts`: after successful insert, fire-and-forget POST to `/lovable/email/transactional/send` with `idempotencyKey: new-lead-${id}` to `shelleyjackson@gmail.com`. Email failure must not fail submission.
+After build green:
 
-### Part 4 — E2E test + final report
+1. POST a test lead to `/api/public/submit-lead` on the preview URL via `stack_modern--invoke-server-function`.
+2. Query `public.leads` for the row; report all column values (esp. `status='new'`, constraints held).
+3. POST 6× rapidly from the same IP context; confirm the 6th returns `429` with `Retry-After: 3600`.
+4. Query `email_send_log` for the test send; report `status` (`pending` → `sent` / `failed` / `dlq`).
+5. Confirm `lead_status` enum exists with all 5 values (table editor renders it as a native dropdown).
+6. Run `email_domain--check_email_domain_status` and surface the exact two NS records for the user to paste at the registrar.
 
-After build green, run on preview URL:
+## Final report
 
-1. Submit a test lead via the contact form.
-2. Pull the row from `public.leads` and report contents.
-3. Submit 6× rapidly, confirm 6th returns 429.
-4. Query `email_send_log` for that lead's send, report status (sent/pending/failed/dlq).
-5. Open Cloud table editor on `public.leads`, confirm `status` column renders as a dropdown with the 5 enum values.
-6. Surface the two NS records from the email-domain status check:
-   - `notify.superrealtor.com  NS  ns3.lovable.cloud`
-   - `notify.superrealtor.com  NS  ns4.lovable.cloud`
-   (Exact values confirmed from the live tool output — these are Lovable's standard delegation pair, but the report will paste the verified output.)
-
-### Files / migrations
-
-- Edit: `src/content/shelley.ts`, `src/routes/index.tsx`, `src/routes/__root.tsx`, `src/routes/api/public/submit-lead.ts`
-- New: `src/lib/email-templates/new-lead-notification.tsx`
-- Tool-generated: `src/integrations/supabase/*`, `src/lib/email-templates/registry.ts`, email server routes, `process-email-queue` cron
-- Migrations: `lead_status` enum, `leads`, `lead_rate_limit`, email infra (tool-managed)
+A single message with:
+- Lead row contents (JSON)
+- 429 response body + `Retry-After` header confirmation
+- `email_send_log` row status
+- Enum verification (5 values present)
+- Two NS records, copy-paste ready
+- Any failure / partial-success notes
