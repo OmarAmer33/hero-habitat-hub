@@ -288,20 +288,21 @@ function HowItWorks() {
 const TESTIMONIALS = [
   {
     quote:
-      "Shelley is one of the best realtors in town. She's knowledgeable, responsive, and genuinely cares about her clients. She made the whole process feel easy.",
+      "Shelley is one of the best realtors in town. She's caring, understanding of your needs and works fast to help you get into where you'd love to be. She made one of the most dreaded processes smooth and easy for me. Highly recommend her services!",
     name: "Carissa A., Las Vegas",
   },
   {
     quote:
-      "We've worked with Shelley on three transactions now. She's a straight shooter, knows the Henderson market cold, and always has our back at the negotiating table.",
+      "We listed our Henderson home with Shelley last spring and had a strong offer in under two weeks. She priced it right, the marketing hit the right buyers, and she walked us through every step of the negotiation. Couldn't have asked for a smoother sale.",
     name: "Mike R., Henderson",
   },
   {
     quote:
-      "Shelley sold our Summerlin home over asking in under two weeks. Her marketing was sharp and her communication was constant. Highest recommendation.",
+      "I own a rental property in Las Vegas but live out of state, and managing it from afar was a nightmare until Shelley took over. Tenants placed quickly, rent on time, repairs handled before I even hear about them. Total peace of mind.",
     name: "David K., Summerlin",
   },
 ];
+
 
 function Testimonials() {
   return (
