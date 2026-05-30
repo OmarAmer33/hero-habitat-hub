@@ -1,6 +1,14 @@
-1. Edit `src/routes/lovable/email/queue/process.ts` lines 82–90: replace Bearer+SERVICE_ROLE_KEY check with `apikey` header check against `import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY`. Add TODO comment noting `vault.email_queue_service_role_key` is now orphaned and can be dropped in a follow-up migration.
-2. Run cron migration: `cron.alter_job(4, ...)` to switch header to `apikey: <publishable-key>`.
-3. Surface publish button. Wait for user to publish.
-4. After publish: poll cron details + email_send_log + net._http_response. Report.
+Edit `src/content/shelley.ts` with three content-only changes:
 
-Vault cleanup deferred to a follow-up migration per user request — TODO marker added in route file as a breadcrumb.
+1. **Line 23**: Change `googleBusinessUrl` from `"https://www.google.com/search?q=Shelley+Jackson+Realtor+Las+Vegas"` to `"https://share.google/rYHmTtteXTK28HnfN"`.
+
+2. **Remove confirmed `// CONFIRM WITH SHELLEY` comments** on:
+   - Line 12 (phone — confirmed on 5/27 call)
+   - Line 15 (email — confirmed on 5/27 call)
+   - Line 22 (Google Business URL — confirming now)
+
+3. **Preserve** the remaining `// CONFIRM WITH SHELLEY` comments on:
+   - Line 18 (hours — still pending)
+   - Line 25 (brokerageDisclosure — still pending)
+
+No functional code changes. Publish after edits.
