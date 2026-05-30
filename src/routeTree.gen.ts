@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SellersRouteImport } from './routes/sellers'
@@ -26,6 +27,11 @@ import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lova
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/sellers'
     | '/services'
     | '/terms'
+    | '/unsubscribe'
     | '/email/unsubscribe'
     | '/api/public/submit-lead'
     | '/lovable/email/suppression'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/sellers'
     | '/services'
     | '/terms'
+    | '/unsubscribe'
     | '/email/unsubscribe'
     | '/api/public/submit-lead'
     | '/lovable/email/suppression'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/sellers'
     | '/services'
     | '/terms'
+    | '/unsubscribe'
     | '/email/unsubscribe'
     | '/api/public/submit-lead'
     | '/lovable/email/suppression'
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   SellersRoute: typeof SellersRoute
   ServicesRoute: typeof ServicesRoute
   TermsRoute: typeof TermsRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   ApiPublicSubmitLeadRoute: typeof ApiPublicSubmitLeadRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
@@ -243,6 +256,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -369,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   SellersRoute: SellersRoute,
   ServicesRoute: ServicesRoute,
   TermsRoute: TermsRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   ApiPublicSubmitLeadRoute: ApiPublicSubmitLeadRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
@@ -379,3 +400,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
