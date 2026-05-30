@@ -1,9 +1,6 @@
-Execute `email_domain--setup_email_infra` to resync vault `email_queue_service_role_key` with the worker's runtime `SUPABASE_SERVICE_ROLE_KEY`. Then:
+1. Edit `src/routes/lovable/email/queue/process.ts` lines 82–90: replace Bearer+SERVICE_ROLE_KEY check with `apikey` header check against `import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY`. Add TODO comment noting `vault.email_queue_service_role_key` is now orphaned and can be dropped in a follow-up migration.
+2. Run cron migration: `cron.alter_job(4, ...)` to switch header to `apikey: <publishable-key>`.
+3. Surface publish button. Wait for user to publish.
+4. After publish: poll cron details + email_send_log + net._http_response. Report.
 
-1. Wait ~10s for one cron tick.
-2. Pull last 5 `cron.job_run_details` rows for jobid=4.
-3. Pull last 5 `net._http_response` rows to confirm 200s replaced 403s.
-4. Pull final status of both `email_send_log` rows for `shelleyjackson@gmail.com`.
-5. Report back.
-
-If 403s persist, stop and surface the auth-model patch diff (switch route + cron to `apikey` header with anon key) for review before any publish.
+Vault cleanup deferred to a follow-up migration per user request — TODO marker added in route file as a breadcrumb.
