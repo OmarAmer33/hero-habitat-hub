@@ -1,4 +1,3 @@
-// redeploy: refresh runtime env for rotated service_role key
 import { sendLovableEmail } from '@lovable.dev/email-js'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { createFileRoute } from '@tanstack/react-router'
