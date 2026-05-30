@@ -1,6 +1,9 @@
 import { z } from "zod";
+import * as React from "react";
+import { render } from "@react-email/components";
 import { createFileRoute } from "@tanstack/react-router";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { TEMPLATES } from "@/lib/email-templates/registry";
 
 /**
  * Public lead submission endpoint.
@@ -9,8 +12,8 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
  * - Honeypot trip → silent success
  * - Rate limit: 5 inserts / hour / IP → 429 + Retry-After: 3600
  * - Inserts into public.leads
- * - Fires a fire-and-forget transactional email to shelleyjackson@gmail.com
- *   (silent no-op if the email endpoint isn't deployed yet)
+ * - Enqueues a transactional notification email to NOTIFY_EMAIL via the
+ *   email queue (service-role; never fails the submission).
  */
 
 const InterestEnum = z.enum(["buying", "selling", "leasing", "property_management", "exploring"]);
@@ -27,13 +30,17 @@ const LeadSchema = z.object({
   message: z.string().trim().max(500).optional().or(z.literal("")),
   source_path: z.string().max(255).optional(),
   user_agent: z.string().max(500).optional(),
-  // honeypot
-  website: z.string().max(0).optional(),
+  website: z.string().max(0).optional(), // honeypot
 });
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_SECONDS = 3600;
 const NOTIFY_EMAIL = "shelleyjackson@gmail.com";
+
+// Must match the constants baked into src/routes/lovable/email/transactional/send.ts
+const SITE_NAME = "Super Realtor";
+const SENDER_DOMAIN = "notify.superrealtor.com";
+const FROM_DOMAIN = "superrealtor.com";
 
 function getClientIp(request: Request): string {
   const fwd = request.headers.get("x-forwarded-for");
@@ -56,7 +63,6 @@ async function checkAndIncrementRateLimit(ip: string): Promise<{ allowed: boolea
     .maybeSingle();
 
   if (!existing || new Date(existing.window_start) < windowStartCutoff) {
-    // Fresh window
     await supabaseAdmin
       .from("lead_rate_limit")
       .upsert({ ip, window_start: now.toISOString(), count: 1 }, { onConflict: "ip" });
@@ -76,37 +82,69 @@ async function checkAndIncrementRateLimit(ip: string): Promise<{ allowed: boolea
   return { allowed: true, retryAfter: 0 };
 }
 
-async function fireNotificationEmail(origin: string, lead: Record<string, unknown>, leadId: string) {
+async function enqueueNewLeadNotification(lead: Record<string, any>, leadId: string) {
   try {
-    const res = await fetch(`${origin}/lovable/email/transactional/send`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Internal call — uses service role key as bearer for the send route.
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""}`,
-      },
-      body: JSON.stringify({
-        templateName: "new-lead-notification",
-        recipientEmail: NOTIFY_EMAIL,
-        idempotencyKey: `new-lead-${leadId}`,
-        templateData: {
-          fullName: lead.full_name,
-          email: lead.email,
-          phone: lead.phone,
-          interest: lead.interest,
-          preferredContactMethod: lead.preferred_contact_method,
-          bestTimeToContact: lead.best_time_to_contact,
-          message: lead.message,
-          sourcePath: lead.source_path,
-          leadId,
-        },
-      }),
+    const template = TEMPLATES["new-lead-notification"];
+    if (!template) {
+      console.warn("[submit-lead] template not registered; skipping email");
+      return;
+    }
+
+    const templateData = {
+      fullName: lead.full_name,
+      email: lead.email,
+      phone: lead.phone,
+      interest: lead.interest,
+      preferredContactMethod: lead.preferred_contact_method,
+      bestTimeToContact: lead.best_time_to_contact,
+      message: lead.message,
+      sourcePath: lead.source_path,
+      leadId,
+    };
+
+    const messageId = crypto.randomUUID();
+    const element = React.createElement(template.component, templateData);
+    const html = await render(element);
+    const text = await render(element, { plainText: true });
+    const subject =
+      typeof template.subject === "function" ? template.subject(templateData) : template.subject;
+
+    // Log pending first so we have a record even if enqueue fails.
+    await supabaseAdmin.from("email_send_log").insert({
+      message_id: messageId,
+      template_name: "new-lead-notification",
+      recipient_email: NOTIFY_EMAIL,
+      status: "pending",
     });
-    if (!res.ok) {
-      console.warn("[submit-lead] notification email returned non-OK:", res.status, await res.text().catch(() => ""));
+
+    const { error: enqueueError } = await supabaseAdmin.rpc("enqueue_email", {
+      queue_name: "transactional_emails",
+      payload: {
+        message_id: messageId,
+        to: NOTIFY_EMAIL,
+        from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+        sender_domain: SENDER_DOMAIN,
+        subject,
+        html,
+        text,
+        purpose: "transactional",
+        label: "new-lead-notification",
+        idempotency_key: `new-lead-${leadId}`,
+        queued_at: new Date().toISOString(),
+      },
+    });
+
+    if (enqueueError) {
+      console.error("[submit-lead] enqueue_email failed:", enqueueError);
+      await supabaseAdmin.from("email_send_log").insert({
+        message_id: messageId,
+        template_name: "new-lead-notification",
+        recipient_email: NOTIFY_EMAIL,
+        status: "failed",
+        error_message: enqueueError.message,
+      });
     }
   } catch (err) {
-    // Email infrastructure may not be deployed yet — never fail the submission on this.
     console.warn("[submit-lead] notification email skipped:", (err as Error).message);
   }
 }
@@ -130,20 +168,17 @@ export const Route = createFileRoute("/api/public/submit-lead")({
           );
         }
 
-        // Honeypot trip — pretend success so bots don't retry.
+        // Honeypot trip — pretend success.
         if (parsed.data.website && parsed.data.website.length > 0) {
           return Response.json({ ok: true });
         }
 
         const ip = getClientIp(request);
 
-        // Rate limit check
         const rl = await checkAndIncrementRateLimit(ip);
         if (!rl.allowed) {
           return new Response(
-            JSON.stringify({
-              error: "Too many submissions. Please try again later.",
-            }),
+            JSON.stringify({ error: "Too many submissions. Please try again later." }),
             {
               status: 429,
               headers: {
@@ -154,7 +189,6 @@ export const Route = createFileRoute("/api/public/submit-lead")({
           );
         }
 
-        // Insert via supabaseAdmin
         const { data: inserted, error: insertErr } = await supabaseAdmin
           .from("leads")
           .insert({
@@ -176,9 +210,8 @@ export const Route = createFileRoute("/api/public/submit-lead")({
           return Response.json({ error: "Could not save your message." }, { status: 500 });
         }
 
-        // Fire-and-forget notification email (never fails the submission)
-        const origin = new URL(request.url).origin;
-        await fireNotificationEmail(origin, inserted, inserted.id);
+        // Fire-and-forget notification email — never fails submission.
+        await enqueueNewLeadNotification(inserted, inserted.id);
 
         return Response.json({ ok: true });
       },
