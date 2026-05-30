@@ -77,15 +77,16 @@ export const Route = createFileRoute("/lovable/email/queue/process")({
         }
 
         // Verify the caller is authorized with the service role key.
-        // In the TanStack stack, the pg_cron job sends the service role key as a Bearer token.
-        const authHeader = request.headers.get('Authorization')
-        if (!authHeader?.startsWith('Bearer ')) {
+        // Cron authenticates with the publishable/anon key via the `apikey` header.
+        // VITE_SUPABASE_PUBLISHABLE_KEY is inlined into the server bundle at build time,
+        // so the comparison value cannot drift from what cron sends (the same key,
+        // hardcoded in the cron SQL — see migration 20260530_cron_auth_apikey).
+        // TODO: vault.email_queue_service_role_key is now orphaned by this change.
+        //       Drop it in a follow-up migration once this auth model is confirmed stable.
+        const expectedKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+        const apiKeyHeader = request.headers.get('apikey')
+        if (!expectedKey || !apiKeyHeader || apiKeyHeader !== expectedKey) {
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        const token = authHeader.slice('Bearer '.length).trim()
-        if (token !== supabaseServiceKey) {
-          return Response.json({ error: 'Forbidden' }, { status: 403 })
         }
 
         const supabase: SupabaseClient<any, any> = createClient(supabaseUrl, supabaseServiceKey)
