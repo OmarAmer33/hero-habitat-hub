@@ -109,6 +109,41 @@ async function enqueueNewLeadNotification(lead: Record<string, any>, leadId: str
     const subject =
       typeof template.subject === "function" ? template.subject(templateData) : template.subject;
 
+    // Get-or-create a single unsubscribe token for NOTIFY_EMAIL.
+    // The email API rejects transactional sends without one.
+    const normalizedRecipient = NOTIFY_EMAIL.toLowerCase();
+    let unsubscribeToken: string | undefined;
+    {
+      const { data: existing } = await supabaseAdmin
+        .from("email_unsubscribe_tokens")
+        .select("token, used_at")
+        .eq("email", normalizedRecipient)
+        .maybeSingle();
+
+      if (existing?.token && !existing.used_at) {
+        unsubscribeToken = existing.token;
+      } else if (!existing) {
+        const newToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+        await supabaseAdmin
+          .from("email_unsubscribe_tokens")
+          .upsert(
+            { token: newToken, email: normalizedRecipient },
+            { onConflict: "email", ignoreDuplicates: true }
+          );
+        // Re-read to handle race where another insert won.
+        const { data: stored } = await supabaseAdmin
+          .from("email_unsubscribe_tokens")
+          .select("token")
+          .eq("email", normalizedRecipient)
+          .maybeSingle();
+        unsubscribeToken = stored?.token ?? newToken;
+      } else {
+        // Token exists but is used — recipient previously unsubscribed.
+        console.warn("[submit-lead] NOTIFY_EMAIL has used unsubscribe token; skipping send");
+        return;
+      }
+    }
+
     // Log pending first so we have a record even if enqueue fails.
     await supabaseAdmin.from("email_send_log").insert({
       message_id: messageId,
@@ -130,6 +165,7 @@ async function enqueueNewLeadNotification(lead: Record<string, any>, leadId: str
         purpose: "transactional",
         label: "new-lead-notification",
         idempotency_key: `new-lead-${leadId}`,
+        unsubscribe_token: unsubscribeToken,
         queued_at: new Date().toISOString(),
       },
     });
