@@ -9,18 +9,15 @@ export const SHELLEY = {
   license: "NV License S.0190593",
   brokerage: "Castle Rock Realty",
   yearsExperience: 20,
-  // CONFIRM WITH SHELLEY
   phone: "(702) 906-3333",
   phoneHref: "tel:+17029063333",
-  // CONFIRM WITH SHELLEY — may move to a branded address
   email: "shelleyjackson@gmail.com",
   emailHref: "mailto:shelleyjackson@gmail.com",
   // CONFIRM WITH SHELLEY
   hours: "Mon–Sat, 8am–8pm PT · Sun by appointment",
   serviceArea: "Las Vegas, Henderson, Summerlin, North Las Vegas & surrounding Southern Nevada",
   cities: ["Las Vegas", "Henderson", "Summerlin", "North Las Vegas"],
-  // CONFIRM WITH SHELLEY
-  googleBusinessUrl: "https://www.google.com/search?q=Shelley+Jackson+Realtor+Las+Vegas",
+  googleBusinessUrl: "https://share.google/rYHmTtteXTK28HnfN",
   tagline: "Your real estate hero.",
   // CONFIRM WITH SHELLEY / Castle Rock Realty — exact required wording for Nevada
   brokerageDisclosure:
