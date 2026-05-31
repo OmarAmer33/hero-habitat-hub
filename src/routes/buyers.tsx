@@ -18,11 +18,34 @@ export const Route = createFileRoute("/buyers")({
       { property: "og:url", content: "/buyers" },
     ],
     links: [{ rel: "canonical", href: "/buyers" }],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify({
-      "@context": "https://schema.org", "@type": "Service",
-      name: "Home Buying Services", areaServed: "Las Vegas, NV",
-      provider: { "@type": "RealEstateAgent", name: "Shelley Jackson" },
-    }) }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify({
+        "@context": "https://schema.org", "@type": "Service",
+        name: "Home Buying Services", areaServed: "Las Vegas, NV",
+        provider: { "@type": "RealEstateAgent", name: "Shelley Jackson" },
+      }) },
+      { type: "application/ld+json", children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "How much home can I afford?",
+            acceptedAnswer: { "@type": "Answer", text: "Start with pre-approval from a lender. It sets your real ceiling and tells sellers you're serious." },
+          },
+          {
+            "@type": "Question",
+            name: "How long does buying take?",
+            acceptedAnswer: { "@type": "Answer", text: "From offer to close in Las Vegas is typically 30–45 days for financed deals, faster with cash." },
+          },
+          {
+            "@type": "Question",
+            name: "Do you work with first-time buyers?",
+            acceptedAnswer: { "@type": "Answer", text: "Absolutely. Most of my clients have only bought once or twice. I'll walk you through every step." },
+          },
+        ],
+      }) },
+    ],
   }),
 });
 
