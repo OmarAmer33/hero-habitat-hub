@@ -6,7 +6,15 @@ export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
       { title: `Privacy Policy | ${SITE.name}` },
-      { name: "description", content: `Privacy policy for ${SITE.name}.` },
+      {
+        name: "description",
+        content: `How ${SITE.name} collects, uses, and protects the information you submit through our Las Vegas real estate contact forms.`,
+      },
+      { property: "og:title", content: `Privacy Policy | ${SITE.name}` },
+      {
+        property: "og:description",
+        content: `Read how ${SITE.name} handles contact form data, cookies, and your privacy rights.`,
+      },
       { property: "og:url", content: "/privacy" },
       { name: "robots", content: "noindex, follow" },
     ],
