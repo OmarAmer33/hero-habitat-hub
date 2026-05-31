@@ -1,0 +1,14 @@
+# Super Realtor
+
+> Shelley Jackson — Las Vegas REALTOR® with 20+ years local experience. Buying, selling, leasing, and property management across Las Vegas, Henderson, Summerlin, and North Las Vegas.
+
+## Pages
+
+- [Home](/): Overview of Shelley Jackson's Las Vegas real estate services.
+- [About](/about): Shelley's 20-year background and approach to Las Vegas real estate.
+- [Services](/services): Full service offering — buying, selling, leasing, property management.
+- [Buyers](/buyers): The Super Buyer Blueprint — pre-approval to keys-in-hand.
+- [Sellers](/sellers): Listing strategy, pricing, marketing, and closing.
+- [Property Management](/property-management): Full-service property management for Southern Nevada owners.
+- [FAQ](/faq): Common questions about buying, selling, leasing, and property management in Las Vegas.
+- [Contact](/contact): Reach Shelley directly — one business-day reply.

@@ -126,6 +126,8 @@ function HeroSection() {
               alt="Shelley Jackson, Las Vegas Super Realtor, in royal-blue blazer and red cape with a giant golden house key, Las Vegas skyline behind her."
               width={1408}
               height={800}
+              fetchPriority="high"
+              decoding="async"
               className="block h-full w-full object-cover"
             />
           </ComicPanel>

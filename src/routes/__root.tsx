@@ -82,8 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: `${SITE.name} — Las Vegas Real Estate Hero` },
       { property: "og:description", content: SITE.description },
       { name: "twitter:description", content: SITE.description },
-      { property: "og:image", content: "/og-image.jpg" },
-      { name: "twitter:image", content: "/og-image.jpg" },
+      { property: "og:image", content: "https://superrealtor.com/og-image.jpg" },
+      { name: "twitter:image", content: "https://superrealtor.com/og-image.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -6,7 +6,15 @@ export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
       { title: `Terms of Use | ${SITE.name}` },
-      { name: "description", content: `Terms of use for ${SITE.name}.` },
+      {
+        name: "description",
+        content: `Terms of use for ${SITE.name} — site usage, information accuracy disclaimers, brokerage details, and Fair Housing commitment.`,
+      },
+      { property: "og:title", content: `Terms of Use | ${SITE.name}` },
+      {
+        property: "og:description",
+        content: `Site usage terms, disclaimers, and brokerage disclosure for ${SITE.name}.`,
+      },
       { property: "og:url", content: "/terms" },
       { name: "robots", content: "noindex, follow" },
     ],

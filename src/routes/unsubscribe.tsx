@@ -3,6 +3,18 @@ import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/unsubscribe")({
   component: UnsubscribePage,
+  head: () => ({
+    meta: [
+      { title: "Unsubscribe | Super Realtor" },
+      {
+        name: "description",
+        content: "Unsubscribe from Super Realtor email notifications. One-click opt-out for transactional and update emails.",
+      },
+      { property: "og:title", content: "Unsubscribe | Super Realtor" },
+      { property: "og:description", content: "Manage your Super Realtor email preferences and opt out of future messages." },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
 });
 
 type State =

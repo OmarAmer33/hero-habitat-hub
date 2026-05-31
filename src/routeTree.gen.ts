@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SellersRouteImport } from './routes/sellers'
 import { Route as PropertyManagementRouteImport } from './routes/property-management'
@@ -35,6 +36,11 @@ const UnsubscribeRoute = UnsubscribeRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/property-management': typeof PropertyManagementRoute
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/property-management': typeof PropertyManagementRoute
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/property-management': typeof PropertyManagementRoute
   '/sellers': typeof SellersRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/property-management'
     | '/sellers'
     | '/services'
+    | '/sitemap.xml'
     | '/terms'
     | '/unsubscribe'
     | '/email/unsubscribe'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/property-management'
     | '/sellers'
     | '/services'
+    | '/sitemap.xml'
     | '/terms'
     | '/unsubscribe'
     | '/email/unsubscribe'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/property-management'
     | '/sellers'
     | '/services'
+    | '/sitemap.xml'
     | '/terms'
     | '/unsubscribe'
     | '/email/unsubscribe'
@@ -244,6 +256,7 @@ export interface RootRouteChildren {
   PropertyManagementRoute: typeof PropertyManagementRoute
   SellersRoute: typeof SellersRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -268,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -388,6 +408,7 @@ const rootRouteChildren: RootRouteChildren = {
   PropertyManagementRoute: PropertyManagementRoute,
   SellersRoute: SellersRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
@@ -400,13 +421,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
