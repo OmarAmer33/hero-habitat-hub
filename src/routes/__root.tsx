@@ -84,6 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: SITE.description },
       { property: "og:image", content: "https://superrealtor.com/og-image.jpg" },
       { name: "twitter:image", content: "https://superrealtor.com/og-image.jpg" },
+      { name: "google-site-verification", content: "ZoyVPqN7k4EgM8xCVBHZBCwTrnNDYlAMvTI1cc0eyZc" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
