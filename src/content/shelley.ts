@@ -11,8 +11,8 @@ export const SHELLEY = {
   yearsExperience: 20,
   phone: "(702) 906-3333",
   phoneHref: "tel:+17029063333",
-  email: "shelleyjackson@gmail.com",
-  emailHref: "mailto:shelleyjackson@gmail.com",
+  email: "shelley@superrealtor.com",
+  emailHref: "mailto:shelley@superrealtor.com",
   // CONFIRM WITH SHELLEY
   hours: "Mon–Sat, 8am–8pm PT · Sun by appointment",
   serviceArea: "Las Vegas, Henderson, Summerlin, North Las Vegas & surrounding Southern Nevada",
