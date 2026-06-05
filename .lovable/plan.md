@@ -1,14 +1,15 @@
-Edit `src/content/shelley.ts` with three content-only changes:
+## Problem
 
-1. **Line 23**: Change `googleBusinessUrl` from `"https://www.google.com/search?q=Shelley+Jackson+Realtor+Las+Vegas"` to `"https://share.google/rYHmTtteXTK28HnfN"`.
+`formatPhone` in `src/components/forms/LeadForm.tsx` strips non-digits then `.slice(0, 10)`. When autofill provides `+1 702 906 3333`, digits become `17029063333` (11 digits). Slicing the first 10 keeps the leading country code `1` and drops the final digit → `(170) 290-6333`.
 
-2. **Remove confirmed `// CONFIRM WITH SHELLEY` comments** on:
-   - Line 12 (phone — confirmed on 5/27 call)
-   - Line 15 (email — confirmed on 5/27 call)
-   - Line 22 (Google Business URL — confirming now)
+## Fix
 
-3. **Preserve** the remaining `// CONFIRM WITH SHELLEY` comments on:
-   - Line 18 (hours — still pending)
-   - Line 25 (brokerageDisclosure — still pending)
+In `formatPhone`, after stripping non-digits, drop a leading `1` when the result is 11 digits and starts with `1` (US country code). Then apply the existing 10-digit slice/format.
 
-No functional code changes. Publish after edits.
+```ts
+let d = raw.replace(/\D/g, "");
+if (d.length === 11 && d.startsWith("1")) d = d.slice(1);
+d = d.slice(0, 10);
+```
+
+Single-file, presentation-only change. No server/validation changes needed.
