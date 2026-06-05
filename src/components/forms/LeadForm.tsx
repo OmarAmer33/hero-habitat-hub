@@ -63,7 +63,9 @@ export function LeadForm({ defaultInterest, className = "" }: LeadFormProps) {
   }
 
   function formatPhone(raw: string) {
-    const d = raw.replace(/\D/g, "").slice(0, 10);
+    let d = raw.replace(/\D/g, "");
+    if (d.length === 11 && d.startsWith("1")) d = d.slice(1);
+    d = d.slice(0, 10);
     if (d.length < 4) return d;
     if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
     return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
