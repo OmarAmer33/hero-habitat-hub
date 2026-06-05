@@ -214,7 +214,7 @@ export function LeadForm({ defaultInterest, className = "" }: LeadFormProps) {
             {(["phone", "text", "email"] as ContactMethod[]).map((m) => (
               <label
                 key={m}
-                className={`inline-flex cursor-pointer items-center gap-2 border-comic-thin px-3 py-2 text-sm uppercase tracking-wide ${
+                className={`inline-flex cursor-pointer items-center gap-2 border-comic-thin px-3 py-2 text-sm uppercase tracking-wide text-sr-black ${
                   form.preferred_contact_method === m
                     ? "bg-sr-yellow shadow-comic-sm"
                     : "bg-white"
