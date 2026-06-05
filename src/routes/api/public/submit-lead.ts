@@ -35,7 +35,7 @@ const LeadSchema = z.object({
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_SECONDS = 3600;
-const NOTIFY_EMAIL = "shelley@superrealtor.com";
+const NOTIFY_EMAIL = "shelleyjackson@gmail.com";
 
 // Must match the constants baked into src/routes/lovable/email/transactional/send.ts
 const SITE_NAME = "Super Realtor";
