@@ -1,15 +1,15 @@
-## Problem
+## Goal
 
-`formatPhone` in `src/components/forms/LeadForm.tsx` strips non-digits then `.slice(0, 10)`. When autofill provides `+1 702 906 3333`, digits become `17029063333` (11 digits). Slicing the first 10 keeps the leading country code `1` and drops the final digit → `(170) 290-6333`.
+Keep the public-facing contact email on the site as `shelley@superrealtor.com`, but deliver lead-form notification emails to `shelleyjackson@gmail.com`.
 
-## Fix
+## Changes
 
-In `formatPhone`, after stripping non-digits, drop a leading `1` when the result is 11 digits and starts with `1` (US country code). Then apply the existing 10-digit slice/format.
+1. **`src/routes/api/public/submit-lead.ts`**
+   - Change `NOTIFY_EMAIL` from `shelley@superrealtor.com` back to `shelleyjackson@gmail.com`. This is the internal recipient for new-lead notifications — never shown to site visitors.
 
-```ts
-let d = raw.replace(/\D/g, "");
-if (d.length === 11 && d.startsWith("1")) d = d.slice(1);
-d = d.slice(0, 10);
-```
+2. **`src/content/shelley.ts`** — no change. `email` / `emailHref` stay as `shelley@superrealtor.com` so all displayed/`mailto:` links across the site continue to show the branded address.
 
-Single-file, presentation-only change. No server/validation changes needed.
+## Notes
+
+- Reply-to on the notification email (currently set to the lead's own email) is unchanged, so replying still goes to the prospect.
+- No DB or template changes needed.
